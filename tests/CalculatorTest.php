@@ -26,7 +26,7 @@ class CalculatorTest extends TestCase
             $rate = 8;
             $loanTerm = 24;
             $termType = Product::TERM_TYPE_MONTH;
-            $foundDate = Carbon::create('2019-07-08');
+            $foundDate = Carbon::make('2019-07-08');
             $repayMode = Product::REPAY_MODE_NATURAL_QUARTER;
             $repayDay = 20;
             $repayMonth = 6;
@@ -44,7 +44,7 @@ class CalculatorTest extends TestCase
     protected function getInvestment()
     {
         if (!$this->investment) {
-            $investDateTime = Carbon::create('2019-07-05 12:00:00');
+            $investDateTime = Carbon::make('2019-07-05 12:00:00');
             $amount = 10000;
 
             $investment = new Investment($investDateTime, $amount);
