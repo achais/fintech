@@ -1,17 +1,19 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: achais
- * Date: 2019/1/7
- * Time: 8:44 PM
+
+/*
+ * This file is part of the achais/fintech.
+ *
+ * (c) achais.zheng <achais.zheng@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace Achais\FinTech;
 
 use Achais\FinTech\Exceptions\InvalidArgumentException;
 use Achais\FinTech\Exceptions\InternalException;
-use \Carbon\Carbon;
-use Carbon\Traits\Date;
+use Carbon\Carbon;
 
 /**
  * 金融产品
@@ -22,19 +24,30 @@ class Product
 {
     // 兑付方式
     const REPAY_MODE_NATURAL_MONTH = 0;
+
     const REPAY_MODE_NATURAL_QUARTER = 1;
+
     const REPAY_MODE_NATURAL_HALF_YEAR = 2;
+
     const REPAY_MODE_NATURAL_YEAR = 3;
+
     const REPAY_MODE_MONTH = 10;
+
     const REPAY_MODE_QUARTER = 11;
+
     const REPAY_MODE_HALF_YEAR = 12;
+
     const REPAY_MODE_YEAR = 13;
+
     const REPAY_MODE_END_DATE = 20;
+
     const REPAY_MODE_CUSTOM_DATE = 50;
 
     // 期限类型
     const TERM_TYPE_DAY = 'day';
+
     const TERM_TYPE_MONTH = 'month';
+
     const TERM_TYPE_YEAR = 'year';
 
     // 兑付方式: 描述映射表
@@ -128,10 +141,12 @@ class Product
     }
 
     /**
-     * 验证产品关键属性并且计算相关属性
+     * 验证产品关键属性并且计算相关属性.
      *
      * @param bool $force
+     *
      * @return bool
+     *
      * @throws InternalException
      * @throws InvalidArgumentException
      */
@@ -149,7 +164,7 @@ class Product
 
         if (!($this->rate >= 0 && $this->rate <= 100)) {
             throw new InvalidArgumentException('产品预期年化收益率不符合要求');
-        };
+        }
 
         if (!(array_key_exists($this->termType, $this->termTypeMap))) {
             throw new InvalidArgumentException('产品期限类型不符合要求');
@@ -157,27 +172,27 @@ class Product
 
         if (!(is_int($this->loanTerm) && $this->loanTerm > 0)) {
             throw new InvalidArgumentException('产品期限不符合要求');
-        };
+        }
 
         if (!(array_key_exists($this->repayMode, $this->repayModeMap))) {
             throw new InvalidArgumentException('产品兑付方式不符合要求');
-        };
+        }
 
         if (!($this->foundDate instanceof Carbon)) {
             throw new InvalidArgumentException('产品成立时间不符合要求，要求 Carbon\Carbon Object');
-        };
+        }
 
         if (!($this->repayDay >= 0 && $this->repayDay <= 28)) {
             throw new InvalidArgumentException('产品指定兑付日不符合要求');
-        };
+        }
 
-        if ($this->repayMode === self::REPAY_MODE_CUSTOM_DATE && !($this->repayMonth >= 1 && $this->repayMonth <= 12)) {
+        if (self::REPAY_MODE_CUSTOM_DATE === $this->repayMode && !($this->repayMonth >= 1 && $this->repayMonth <= 12)) {
             throw new InvalidArgumentException('产品指定兑付月不符合要求');
         }
 
-        if (!($this->daysOfYear == 365 || $this->daysOfYear == 366)) {
+        if (!(365 == $this->daysOfYear || 366 == $this->daysOfYear)) {
             throw new InvalidArgumentException('产品自然年计算天数不符合要求');
-        };
+        }
 
         // ====== 初始化计算属性 ======
 
@@ -186,15 +201,17 @@ class Product
         // 实际产品天数
         $this->loanTermDays = $this->endDate->diffInDays($this->foundDate);
         // 指定兑付日
-        if ($this->repayMode === self::REPAY_MODE_CUSTOM_DATE || array_key_exists($this->repayMode, array_slice($this->repayModeMap, 0, 4))) {
+        if (self::REPAY_MODE_CUSTOM_DATE === $this->repayMode || array_key_exists($this->repayMode, array_slice($this->repayModeMap, 0, 4))) {
             // 如果是自然XX兑付方式并且没有指定兑付日, 兑付日为产品成立日
-            if ($this->repayDay === 0) $this->repayDay = (int)$this->foundDate->day;
+            if (0 === $this->repayDay) {
+                $this->repayDay = (int) $this->foundDate->day;
+            }
         } else {
             // 其他的兑付方式, 兑付日为产品成立日
-            $this->repayDay = (int)$this->foundDate->day;
+            $this->repayDay = (int) $this->foundDate->day;
         }
         // 指定兑付月
-        if ($this->repayMode != self::REPAY_MODE_CUSTOM_DATE) {
+        if (self::REPAY_MODE_CUSTOM_DATE != $this->repayMode) {
             $this->repayMonth = 0;
         }
 
@@ -204,12 +221,14 @@ class Product
     public function getRate()
     {
         $this->validate();
+
         return $this->rate;
     }
 
     public function getLoanTerm()
     {
         $this->validate();
+
         return $this->loanTerm;
     }
 
@@ -226,30 +245,35 @@ class Product
     public function getFoundDate()
     {
         $this->validate();
+
         return $this->foundDate;
     }
 
     public function getRepayMonth()
     {
         $this->validate();
+
         return $this->repayMonth;
     }
 
     public function getRepayDay()
     {
         $this->validate();
+
         return $this->repayDay;
     }
 
     public function getAdvanceInterest()
     {
         $this->validate();
+
         return $this->advanceInterest;
     }
 
     public function getDelayDays()
     {
         $this->validate();
+
         return $this->delayDays;
     }
 
@@ -270,19 +294,22 @@ class Product
     public function getEndDate()
     {
         $this->validate();
+
         return $this->endDate;
     }
-
 
     public function getLoanTermDays()
     {
         $this->validate();
+
         return $this->loanTermDays;
     }
 
     public function generateRepaymentTimeline()
     {
-        if ($this->repaymentTimeline) return $this->repaymentTimeline;
+        if ($this->repaymentTimeline) {
+            return $this->repaymentTimeline;
+        }
 
         $this->validate();
 
@@ -302,6 +329,7 @@ class Product
 
                     $cursorDate->addDay(1);
                 }
+
                 break;
             // 顺延
             case self::REPAY_MODE_MONTH:
@@ -317,13 +345,16 @@ class Product
 
                     if ($cursorDate->gte($this->endDate)) {
                         array_push($repaymentTimeline, $this->endDate);
+
                         break;
                     }
                 }
+
                 break;
             // 到期本息
             case self::REPAY_MODE_END_DATE:
                 array_push($repaymentTimeline, $this->endDate);
+
                 break;
             // 年度付息, 指定日期
             case self::REPAY_MODE_CUSTOM_DATE:
@@ -340,6 +371,7 @@ class Product
 
                     $cursorDate->addDay(1);
                 }
+
                 break;
             default:
                 break;

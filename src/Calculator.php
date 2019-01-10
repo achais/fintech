@@ -1,14 +1,16 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: achais
- * Date: 2019/1/9
- * Time: 5:19 PM
+
+/*
+ * This file is part of the achais/fintech.
+ *
+ * (c) achais.zheng <achais.zheng@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace Achais\FinTech;
 
-use Achais\FinTech\Product;
 use Carbon\Carbon;
 
 class Calculator
@@ -39,11 +41,13 @@ class Calculator
     {
         $rate = $this->product->getRate();
         $daysOfYear = $this->product->getDaysOfYear();
+
         return round(($amount * $rate / 100 / $daysOfYear) * $days, 2);
     }
 
     /**
      * @param Investment $investment
+     *
      * @return array
      */
     public function getRepaymentList(Investment $investment)
@@ -57,7 +61,7 @@ class Calculator
             // T+N 起息
             $extraDays = 0;
             $extraRepaymentInterest = 0;
-            if ($index === 0 && $this->product->getAdvanceInterest()) {
+            if (0 === $index && $this->product->getAdvanceInterest()) {
                 $investDateTime = Carbon::make($investment->getInvestDateTime());
                 $investDate = $investDateTime->copy()->startOfDay()->addDay($this->product->getDelayDays());
 
@@ -67,7 +71,7 @@ class Calculator
 
             // 兑付本金
             $repaymentInvestmentAmount = 0;
-            if ((count($this->getRepaymentTimeline()) - $index) === 1) {
+            if (1 === (count($this->getRepaymentTimeline()) - $index)) {
                 $repaymentInvestmentAmount = $investment->getAmount();
             }
 
