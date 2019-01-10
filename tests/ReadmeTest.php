@@ -46,6 +46,7 @@ class ReadmeTest extends TestCase
         $calculator = new Calculator($product); // 实例化计算器对象(注入产品)
         $repaymentList = $calculator->getRepaymentList($investment); //获取兑付列表(注入认购对象)
 
+        /*
         print_r(PHP_EOL);
         print_r('产品成立时间: '.$product->getFoundDate().PHP_EOL);
         print_r('产品到期时间: '.$product->getEndDate().PHP_EOL);
@@ -72,6 +73,7 @@ class ReadmeTest extends TestCase
                 $repayment->getTotalRepaymentAmount()
             );
         }
+        */
 
         $this->assertCount(9, $repaymentList);
     }
