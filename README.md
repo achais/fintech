@@ -3,7 +3,8 @@
 <p align="center"> 一个帮助你计算金融产品兑付明细的扩展包 </p>
 
 <p align="center">
-[![Build Status](https://travis-ci.org/achais/fintech.svg?branch=master)](https://travis-ci.org/achais/fintech)
+<a href="https://travis-ci.org/achais/fintech" rel="nofollow"><img src="https://travis-ci.org/achais/fintech.svg?branch=master" alt="Build Status" style="max-width:100%;"></a>
+<a href="javascript:void(0)" rel="nofollow"><img src="https://github.styleci.io/repos/165015731/shield" alt="Build Status" style="max-width:100%;"></a>
 </p>
 
 ## 介绍
