@@ -2,6 +2,10 @@
 
 <p align="center"> 一个帮助你计算金融产品兑付明细的扩展包 </p>
 
+<p align="center">
+[![Build Status](https://travis-ci.org/achais/fintech.svg?branch=master)](https://travis-ci.org/achais/fintech)
+</p>
+
 ## 介绍
 
 #### 目前支持的兑付方式

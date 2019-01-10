@@ -9,6 +9,7 @@
         }
     ],
     "require": {
+        "php": ">=7.1",
         "nesbot/carbon": "^2.10",
         "phpunit/phpunit": "~6.0",
         "mockery/mockery": "~1.0"
