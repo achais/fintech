@@ -1,0 +1,21 @@
+{
+    "name": "achais\/fintech",
+    "description": "A fintech package",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "achais.zheng",
+            "email": "achais.zheng@gmail.com"
+        }
+    ],
+    "require": {
+        "nesbot/carbon": "^2.10",
+        "phpunit/phpunit": "^7.5",
+        "mockery/mockery": "^1.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Achais\\FinTech\\": "src"
+        }
+    }
+}
