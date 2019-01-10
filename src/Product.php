@@ -180,6 +180,8 @@ class Product
 
         if (!($this->foundDate instanceof Carbon)) {
             throw new InvalidArgumentException('产品成立时间不符合要求，要求 Carbon\Carbon Object');
+        } else {
+            $this->foundDate = $this->foundDate->startOfDay();
         }
 
         if (!($this->repayDay >= 0 && $this->repayDay <= 28)) {
@@ -338,7 +340,7 @@ class Product
             case self::REPAY_MODE_NATURAL_HALF_YEAR:
             case self::REPAY_MODE_NATURAL_YEAR:
                 $repayTimelineMap = $this->timelineMap[$this->repayMode];
-                $cursorDate = Carbon::make($this->foundDate)->copy();
+                $cursorDate = Carbon::make($this->foundDate)->copy()->startOfDay();
                 while ($cursorDate->lte($this->endDate)) {
                     if ((in_array($cursorDate->month, $repayTimelineMap) && $cursorDate->day === $this->repayDay) || $cursorDate->eq($this->endDate)) {
                         array_push($repaymentTimeline, $cursorDate->copy());
@@ -354,7 +356,7 @@ class Product
             case self::REPAY_MODE_HALF_YEAR:
             case self::REPAY_MODE_YEAR:
                 $stepMonth = $this->timelineMap[$this->repayMode];
-                $cursorDate = Carbon::make($this->foundDate)->copy()->addMonth($stepMonth);
+                $cursorDate = Carbon::make($this->foundDate)->copy()->addMonth($stepMonth)->startOfDay();
                 while ($cursorDate->lt($this->endDate)) {
                     array_push($repaymentTimeline, $cursorDate->copy());
 
@@ -375,10 +377,10 @@ class Product
                 break;
             // 年度付息, 指定日期
             case self::REPAY_MODE_CUSTOM_DATE:
-                if ($this->foundDate->lt(Carbon::create($this->foundDate->year, $this->repayMonth, $this->repayDay))) {
-                    $cursorDate = Carbon::create($this->foundDate->year, $this->repayMonth, $this->repayDay);
+                if (Carbon::create($this->foundDate->year, $this->repayMonth, $this->repayDay)->gt($this->foundDate)) {
+                    $cursorDate = Carbon::create($this->foundDate->year, $this->repayMonth, $this->repayDay)->startOfDay();
                 } else {
-                    $cursorDate = Carbon::create($this->foundDate->year + 1, $this->repayMonth, $this->repayDay);
+                    $cursorDate = Carbon::create($this->foundDate->year + 1, $this->repayMonth, $this->repayDay)->startOfDay();
                 }
 
                 while ($cursorDate->lte($this->endDate)) {
@@ -386,7 +388,7 @@ class Product
                         array_push($repaymentTimeline, $cursorDate->copy());
                     }
 
-                    $cursorDate->addDay(1);
+                    $cursorDate->addDays(1);
                 }
 
                 break;

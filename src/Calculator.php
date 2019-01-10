@@ -19,12 +19,22 @@ class Calculator
 
     protected $repaymentTimeline;
 
+    protected $cacheRepaymentLists = [];
+
+    protected $cacheRepaymentSummaries = [];
+
     public function __construct(Product $product)
     {
         if ($product->validate()) {
             $this->product = $product;
             $this->repaymentTimeline = $product->generateRepaymentTimeline();
         }
+    }
+
+    protected function getInvestmentMapKey(Investment $investment)
+    {
+        $mapKey = $investment->getInvestDateTime()->toDateString() . '-' . $investment->getAmount();
+        return $mapKey;
     }
 
     public function getProduct()
@@ -52,6 +62,12 @@ class Calculator
      */
     public function getRepaymentList(Investment $investment)
     {
+        $mapKey = $this->getInvestmentMapKey($investment);
+
+        if (array_key_exists($mapKey, $this->cacheRepaymentLists)) {
+            return $this->cacheRepaymentLists[$mapKey];
+        }
+
         $repaymentList = [];
 
         $foundDate = $this->getProduct()->getFoundDate();
@@ -86,6 +102,24 @@ class Calculator
             $cursorDate = $timePoint;
         }
 
+        $this->cacheRepaymentLists[$mapKey] = $repaymentList;
+
         return $repaymentList;
+    }
+
+    public function getRepaymentSummary(Investment $investment)
+    {
+        $mapKey = $this->getInvestmentMapKey($investment);
+
+        if (array_key_exists($mapKey, $this->cacheRepaymentSummaries)) {
+            return $this->cacheRepaymentSummaries[$mapKey];
+        }
+
+        $repaymentList = $this->getRepaymentList($investment);
+
+        $summary = new Summary($this->product, $repaymentList);
+        $this->cacheRepaymentSummaries[$mapKey] = $summary;
+
+        return $summary;
     }
 }

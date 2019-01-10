@@ -14,6 +14,7 @@ namespace Achais\FinTech\Tests;
 use Achais\FinTech\Calculator;
 use Achais\FinTech\Investment;
 use Achais\FinTech\Product;
+use Achais\FinTech\Summary;
 use Carbon\Carbon;
 use PHPUnit\Framework\TestCase;
 
@@ -26,14 +27,14 @@ class CalculatorTest extends TestCase
     protected function getProduct()
     {
         if (!$this->product) {
-            $rate = 8;
+            $rate = 8.2;
             $loanTerm = 24;
             $termType = Product::TERM_TYPE_MONTH;
-            $foundDate = Carbon::make('2019-07-08');
+            $foundDate = Carbon::make('2019-01-04');
             $repayMode = Product::REPAY_MODE_NATURAL_QUARTER;
-            $repayDay = 20;
+            $repayDay = 10;
             $repayMonth = 6;
-            $advanceInterest = true;
+            $advanceInterest = false;
 
             $product = new Product();
             $product->init($rate, $loanTerm, $repayMode, $foundDate, $termType, $repayDay, $repayMonth, $advanceInterest);
@@ -47,8 +48,8 @@ class CalculatorTest extends TestCase
     protected function getInvestment()
     {
         if (!$this->investment) {
-            $investDateTime = Carbon::make('2019-07-05 12:00:00');
-            $amount = 10000;
+            $investDateTime = Carbon::make('2019-12-28 12:00:00');
+            $amount = 50000;
 
             $investment = new Investment($investDateTime, $amount);
 
@@ -102,5 +103,25 @@ class CalculatorTest extends TestCase
         }
 
         $this->assertCount(9, $repaymentList);
+    }
+
+    public function testCalcSummary()
+    {
+        $product = $this->getProduct();
+        $investment = $this->getInvestment();
+
+        $calculator = new Calculator($product);
+        $summary = $calculator->getRepaymentSummary($investment);
+
+        /*
+        print_r(PHP_EOL);
+        printf('产品到期时间: %s | 赚取金额: %s | 合计: %s'.PHP_EOL,
+            $summary->getEndDate(),
+            $summary->getTotalInterest(),
+            $summary->getTotalAmount()
+        );
+        */
+
+        $this->assertInstanceOf(Summary::class, $summary);
     }
 }
