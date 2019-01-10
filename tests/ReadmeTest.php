@@ -26,7 +26,7 @@ class ReadmeTest extends TestCase
         $rate = 8.0; // 利率
         $loanTerm = 24; // 产品期限
         $termType = Product::TERM_TYPE_MONTH; // 期限类型(月)
-        $foundDate = Carbon::create('2019-07-08'); // 产品成立时间
+        $foundDate = Carbon::make('2019-07-08'); // 产品成立时间
         $repayMode = Product::REPAY_MODE_NATURAL_QUARTER; // 兑付方式(自然季度付息, 到期还本)
         $repayDay = 20; // 指定兑付日 (仅对自然xx兑付方式有效)
         $repayMonth = 6; // 指定兑付月 (仅对自然xx兑付方式有效)
@@ -37,7 +37,7 @@ class ReadmeTest extends TestCase
 
         // ====== 认购属性 ======
 
-        $investDateTime = Carbon::create('2019-07-05 12:00:00'); // 认购时间
+        $investDateTime = Carbon::make('2019-07-05 12:00:00'); // 认购时间
         $amount = 10000; // 认购金额
         $investment = new Investment($investDateTime, $amount); // 实例化认购对象
 

@@ -3,7 +3,7 @@
 <p align="center"> 一个帮助你计算金融产品兑付明细的扩展包 </p>
 
 <p align="center">
-<a href="https://travis-ci.org/achais/fintech" rel="nofollow"><img src="https://travis-ci.org/achais/fintech.svg?branch=master" alt="Build Status" style="max-width:100%;"></a>
+<a href="https://travis-ci.org/achais/fintech" target="_blank" rel="nofollow"><img src="https://travis-ci.org/achais/fintech.svg?branch=master" alt="Build Status" style="max-width:100%;"></a>
 <a href="javascript:void(0)" rel="nofollow"><img src="https://github.styleci.io/repos/165015731/shield" alt="Build Status" style="max-width:100%;"></a>
 </p>
 
@@ -20,6 +20,9 @@
 - 年度付息，到期还本
 - 到期本息
 - 指定日期付息，到期还本 (年度付息)
+
+## 环境要求
+- PHP >= 5.6
 
 ## 安装
 
@@ -40,7 +43,7 @@ use Achais\FinTech\Product;
 $rate = 8.0; // 利率
 $loanTerm = 24; // 产品期限
 $termType = Product::TERM_TYPE_MONTH; // 期限类型(月)
-$foundDate = Carbon::create('2019-07-08'); // 产品成立时间
+$foundDate = Carbon::make('2019-07-08'); // 产品成立时间
 $repayMode = Product::REPAY_MODE_NATURAL_QUARTER; // 兑付方式(自然季度付息, 到期还本)
 $repayDay = 20; // 指定兑付日
 
@@ -83,7 +86,7 @@ use Achais\FinTech\Product;
 $rate = 8.0; // 利率
 $loanTerm = 24; // 产品期限
 $termType = Product::TERM_TYPE_MONTH; // 期限类型(月)
-$foundDate = Carbon::create('2019-07-08'); // 产品成立时间
+$foundDate = Carbon::make('2019-07-08'); // 产品成立时间
 $repayMode = Product::REPAY_MODE_NATURAL_QUARTER; // 兑付方式(自然季度付息, 到期还本)
 $repayDay = 20; // 指定兑付日 (仅对自然xx兑付方式有效)
 $repayMonth = 6; // 指定兑付月 (仅对自然xx兑付方式有效)
@@ -95,7 +98,7 @@ $product->init($rate, $loanTerm, $repayMode, $foundDate, $termType, $repayDay, $
 
 // ====== 认购属性 ======
 
-$investDateTime = Carbon::create('2019-07-05 12:00:00'); // 认购时间
+$investDateTime = Carbon::make('2019-07-05 12:00:00'); // 认购时间
 $amount = 10000; // 认购金额
 $investment = new Investment($investDateTime, $amount); // 实例化认购对象
 

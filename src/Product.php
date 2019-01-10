@@ -197,7 +197,20 @@ class Product
         // ====== 初始化计算属性 ======
 
         // 产品到期时间
-        $this->endDate = $this->foundDate->copy()->add($this->loanTerm, $this->termType);
+        switch ($this->termType) {
+            case self::TERM_TYPE_DAY:
+                $this->endDate = $this->foundDate->copy()->addDays($this->loanTerm);
+                break;
+            case self::TERM_TYPE_MONTH:
+                $this->endDate = $this->foundDate->copy()->addMonths($this->loanTerm);
+                break;
+            case self::TERM_TYPE_YEAR:
+                $this->endDate = $this->foundDate->copy()->addYears($this->loanTerm);
+                break;
+            default:
+                $this->endDate = $this->foundDate->copy()->addDays($this->loanTerm);
+                break;
+        }
         // 实际产品天数
         $this->loanTermDays = $this->endDate->diffInDays($this->foundDate);
         // 指定兑付日

@@ -23,7 +23,7 @@ class ProductTest extends TestCase
         $rate = 8.0;
         $loanTerm = 12;
         $termType = Product::TERM_TYPE_MONTH;
-        $foundDate = Carbon::create('2019-01-01');
+        $foundDate = Carbon::make('2019-01-01');
         $repayMode = Product::REPAY_MODE_NATURAL_MONTH;
 
         $product = new Product();
@@ -49,7 +49,7 @@ class ProductTest extends TestCase
         $rate = 8.0;
         $loanTerm = 24;
         $termType = Product::TERM_TYPE_MONTH;
-        $foundDate = Carbon::create('2019-07-08');
+        $foundDate = Carbon::make('2019-07-08');
         $repayMode = Product::REPAY_MODE_NATURAL_QUARTER;
         $repayDay = 20;
         $repayMonth = 6;
