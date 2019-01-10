@@ -1,9 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: achais
- * Date: 2019-01-10
- * Time: 15:01
+
+/*
+ * This file is part of the achais/fintech.
+ *
+ * (c) achais.zheng <achais.zheng@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace Achais\FinTech\Tests;
@@ -32,7 +35,6 @@ class ReadmeTest extends TestCase
         $product = new Product(); // 实例化产品对象
         $product->init($rate, $loanTerm, $repayMode, $foundDate, $termType, $repayDay, $repayMonth, $advanceInterest); // 初始化产品属性
 
-
         // ====== 认购属性 ======
 
         $investDateTime = Carbon::create('2019-07-05 12:00:00'); // 认购时间
@@ -45,22 +47,22 @@ class ReadmeTest extends TestCase
         $repaymentList = $calculator->getRepaymentList($investment); //获取兑付列表(注入认购对象)
 
         print_r(PHP_EOL);
-        print_r('产品成立时间: ' . $product->getFoundDate() . PHP_EOL);
-        print_r('产品到期时间: ' . $product->getEndDate() . PHP_EOL);
-        print_r('产品实际天数: ' . $product->getLoanTermDays() . PHP_EOL);
-        print_r('产品利率: ' . $product->getRate() . '%' . PHP_EOL);
-        print_r('产品兑付方式: ' . $product->getRepayModeName() . PHP_EOL);
-        print_r('是否次日起息: ' . ($product->getAdvanceInterest() ? '是' : '否')  . PHP_EOL);
-        print_r('指定兑付月: ' . $product->getRepayMonth() . PHP_EOL);
-        print_r('指定兑付日: ' . $product->getRepayDay() . PHP_EOL);
+        print_r('产品成立时间: '.$product->getFoundDate().PHP_EOL);
+        print_r('产品到期时间: '.$product->getEndDate().PHP_EOL);
+        print_r('产品实际天数: '.$product->getLoanTermDays().PHP_EOL);
+        print_r('产品利率: '.$product->getRate().'%'.PHP_EOL);
+        print_r('产品兑付方式: '.$product->getRepayModeName().PHP_EOL);
+        print_r('是否次日起息: '.($product->getAdvanceInterest() ? '是' : '否').PHP_EOL);
+        print_r('指定兑付月: '.$product->getRepayMonth().PHP_EOL);
+        print_r('指定兑付日: '.$product->getRepayDay().PHP_EOL);
 
         printf(PHP_EOL);
-        printf('认购金额: %s' . PHP_EOL, $investment->getAmount());
-        printf('认购时间: %s' . PHP_EOL, $investment->getInvestDateTime()->toDateTimeString());
+        printf('认购金额: %s'.PHP_EOL, $investment->getAmount());
+        printf('认购时间: %s'.PHP_EOL, $investment->getInvestDateTime()->toDateTimeString());
         printf(PHP_EOL);
 
         foreach ($repaymentList as $repayment) {
-            printf('兑付时间点: %s | 计息天数: %s | 兑付利息: %s | 加息天数: %s | 加息金额: %s | 本金: %s | 总金额: %s' . PHP_EOL,
+            printf('兑付时间点: %s | 计息天数: %s | 兑付利息: %s | 加息天数: %s | 加息金额: %s | 本金: %s | 总金额: %s'.PHP_EOL,
                 $repayment->getRepaymentDate(),
                 $repayment->getDays(),
                 $repayment->getRepaymentInterest(),
