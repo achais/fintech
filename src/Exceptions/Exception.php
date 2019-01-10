@@ -1,14 +1,16 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: achais
- * Date: 2019/1/7
- * Time: 9:26 PM
+
+/*
+ * This file is part of the achais/fintech.
+ *
+ * (c) achais.zheng <achais.zheng@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace Achais\FinTech\Exceptions;
 
 class Exception extends \Exception
 {
-
 }

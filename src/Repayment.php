@@ -1,27 +1,32 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: achais
- * Date: 2019/1/9
- * Time: 7:18 PM
+
+/*
+ * This file is part of the achais/fintech.
+ *
+ * (c) achais.zheng <achais.zheng@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace Achais\FinTech;
-
 
 class Repayment
 {
     protected $repaymentDate;
 
     protected $days;
+
     protected $repaymentInterest;
 
     protected $extraDays;
+
     protected $extraRepaymentInterest;
 
     protected $repaymentInvestmentAmount;
 
     protected $totalDays;
+
     protected $totalRepaymentAmount;
 
     public function __construct($repaymentDate, $days, $repaymentInterest, $extraDays = 0, $extraRepaymentInterest = 0, $repaymentInvestmentAmount = 0)
