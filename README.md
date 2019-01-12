@@ -1,6 +1,6 @@
 <h1 align="center"> FinTech </h1>
 
-<p align="center"> 一个帮助你计算金融产品兑付明细的扩展包 </p>
+<p align="center"> 💰一个帮助你计算金融产品兑付明细的扩展包 </p>
 
 <p align="center">
 <a href="https://travis-ci.org/achais/fintech" target="_blank" rel="nofollow"><img src="https://travis-ci.org/achais/fintech.svg?branch=master" alt="Build Status" style="max-width:100%;"></a>
@@ -22,7 +22,7 @@
 - 指定日期付息，到期还本 (年度付息)
 
 ## 环境要求
-- PHP >= 5.6
+- PHP >= 7.0.0
 
 ## 安装
 
