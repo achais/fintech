@@ -33,7 +33,8 @@ class Calculator
 
     protected function getInvestmentMapKey(Investment $investment)
     {
-        $mapKey = $investment->getInvestDateTime()->toDateString() . '-' . $investment->getAmount();
+        $mapKey = $investment->getInvestDateTime()->toDateString().'-'.$investment->getAmount();
+
         return $mapKey;
     }
 
