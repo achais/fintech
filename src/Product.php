@@ -184,7 +184,7 @@ class Product
             $this->foundDate = $this->foundDate->startOfDay();
         }
 
-        if (!($this->repayDay >= 0 && $this->repayDay <= 28)) {
+        if (!($this->repayDay >= 0 && $this->repayDay <= 31)) {
             throw new InvalidArgumentException('产品指定兑付日不符合要求');
         }
 
