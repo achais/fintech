@@ -27,7 +27,7 @@
 ## 安装
 
 ```shell
-$ composer require achais/fintech -vvv
+$ composer require "achais/fintech:dev-master" -vvv
 ```
 
 ## 使用
