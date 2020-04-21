@@ -202,20 +202,15 @@ class Product
         switch ($this->termType) {
             case self::TERM_TYPE_DAY:
                 $this->endDate = $this->foundDate->copy()->addDays($this->loanTerm);
-
                 break;
             case self::TERM_TYPE_MONTH:
                 $this->endDate = $this->foundDate->copy()->addMonths($this->loanTerm);
-
                 break;
             case self::TERM_TYPE_YEAR:
                 $this->endDate = $this->foundDate->copy()->addYears($this->loanTerm);
-
                 break;
             default:
-                $this->endDate = $this->foundDate->copy()->addDays($this->loanTerm);
-
-                break;
+                throw new InvalidArgumentException('产品期限类型不符合要求');
         }
         // 实际产品天数
         $this->loanTermDays = $this->endDate->diffInDays($this->foundDate);

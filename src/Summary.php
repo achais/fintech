@@ -32,7 +32,7 @@ class Summary
 
         foreach ($repaymentList as $repayment) {
             $this->totalInterest += $repayment->getRepaymentInterest() + $repayment->getExtraRepaymentInterest();
-            $this->totalAmount = $repayment->getTotalRepaymentAmount();
+            $this->totalAmount += $repayment->getTotalRepaymentAmount();
         }
     }
 
@@ -48,6 +48,6 @@ class Summary
 
     public function getTotalAmount()
     {
-        return $this->totalInterest;
+        return $this->totalAmount;
     }
 }
