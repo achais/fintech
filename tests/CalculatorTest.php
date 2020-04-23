@@ -91,7 +91,8 @@ class CalculatorTest extends TestCase
         printf(PHP_EOL);
 
         foreach ($repaymentList as $repayment) {
-            printf('兑付时间点: %s | 计息天数: %s | 兑付利息: %s | 加息天数: %s | 加息金额: %s | 本金: %s | 总金额: %s'.PHP_EOL,
+            printf(
+                '兑付时间点: %s | 计息天数: %s | 兑付利息: %s | 加息天数: %s | 加息金额: %s | 本金: %s | 总金额: %s'.PHP_EOL,
                 $repayment->getRepaymentDate(),
                 $repayment->getDays(),
                 $repayment->getRepaymentInterest(),
