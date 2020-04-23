@@ -49,6 +49,7 @@ class Investment
     public function setExtra($key, $value)
     {
         $this->extra[$key] = $value;
+
         return $this;
     }
 
