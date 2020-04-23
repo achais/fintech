@@ -20,6 +20,8 @@ class Investment
 
     protected $amount;
 
+    protected $extra = [];
+
     public function __construct($investDateTime, $amount)
     {
         if (!($investDateTime instanceof Carbon)) {
@@ -42,5 +44,20 @@ class Investment
     public function getAmount()
     {
         return $this->amount;
+    }
+
+    public function setExtra($key, $value)
+    {
+        $this->extra[$key] = $value;
+        return $this;
+    }
+
+    public function getExtra($key = null)
+    {
+        if (is_null($key)) {
+            return $this->extra;
+        }
+
+        return array_key_exists($key, $this->extra) ? $this->extra[$key] : null;
     }
 }
