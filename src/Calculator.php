@@ -11,6 +11,7 @@
 
 namespace Achais\FinTech;
 
+use Achais\FinTech\Exceptions\InvalidArgumentException;
 use Carbon\Carbon;
 
 class Calculator
@@ -33,9 +34,7 @@ class Calculator
 
     protected function getInvestmentMapKey(Investment $investment)
     {
-        $mapKey = $investment->getInvestDateTime()->toDateString().'-'.$investment->getAmount();
-
-        return $mapKey;
+        return $investment->getInvestDateTime()->toDateString().'-'.$investment->getAmount();
     }
 
     public function getProduct()
@@ -58,8 +57,8 @@ class Calculator
 
     /**
      * @param Investment $investment
-     *
-     * @return array
+     * @return array|mixed
+     * @throws InvalidArgumentException
      */
     public function getRepaymentList(Investment $investment)
     {
@@ -71,7 +70,13 @@ class Calculator
 
         $repaymentList = [];
 
+        $investDateTime = $investment->getInvestDateTime();
         $foundDate = $this->getProduct()->getFoundDate();
+
+        if ($investDateTime->gte($foundDate)) {
+            throw new InvalidArgumentException('投资时间不能大于产品成立时间');
+        }
+
         $cursorDate = Carbon::make($foundDate)->copy();
 
         foreach ($this->getRepaymentTimeline() as $index => $timePoint) {
@@ -79,8 +84,13 @@ class Calculator
             $extraDays = 0;
             $extraRepaymentInterest = 0;
             if (0 === $index && $this->product->getAdvanceInterest()) {
-                $investDateTime = Carbon::make($investment->getInvestDateTime());
-                $investDate = $investDateTime->copy()->startOfDay()->addDay($this->product->getDelayDays());
+                $investDate = $investDateTime->copy()->startOfDay()->addDays($this->product->getDelayDays());
+
+                if ($this->product->getAdvanceInterestType() == Product::ADVANCE_INTEREST_TYPE_SKIP_HOLIDAY) {
+                    while (in_array($investDate, $this->product->getHolidays()) && $investDate->lte($foundDate)) {
+                        $investDate = $investDate->addDays(1);
+                    }
+                }
 
                 $extraDays = Carbon::make($this->product->getFoundDate())->diffInDays($investDate);
                 $extraRepaymentInterest = $this->calcInterest($extraDays, $investment->getAmount());
