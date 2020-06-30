@@ -57,7 +57,9 @@ class Calculator
 
     /**
      * @param Investment $investment
+     *
      * @return array|mixed
+     *
      * @throws InvalidArgumentException
      */
     public function getRepaymentList(Investment $investment)
@@ -86,7 +88,7 @@ class Calculator
             if (0 === $index && $this->product->getAdvanceInterest()) {
                 $investDate = $investDateTime->copy()->startOfDay()->addDays($this->product->getDelayDays());
 
-                if ($this->product->getAdvanceInterestType() == Product::ADVANCE_INTEREST_TYPE_SKIP_HOLIDAY) {
+                if (Product::ADVANCE_INTEREST_TYPE_SKIP_HOLIDAY == $this->product->getAdvanceInterestType()) {
                     while (in_array($investDate, $this->product->getHolidays()) && $investDate->lte($foundDate)) {
                         $investDate = $investDate->addDays(1);
                     }

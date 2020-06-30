@@ -52,6 +52,7 @@ class Product
 
     // 提前计息方式
     const ADVANCE_INTEREST_TYPE_DELAY_DAYS = 1;
+
     const ADVANCE_INTEREST_TYPE_SKIP_HOLIDAY = 2;
 
     // 兑付方式: 描述映射表
@@ -229,11 +230,11 @@ class Product
         if (self::REPAY_MODE_CUSTOM_DATE === $this->repayMode || array_key_exists($this->repayMode, array_slice($this->repayModeMap, 0, 4))) {
             // 如果是自然XX兑付方式并且没有指定兑付日, 兑付日为产品成立日
             if (0 === $this->repayDay) {
-                $this->repayDay = (int)$this->foundDate->day;
+                $this->repayDay = (int) $this->foundDate->day;
             }
         } else {
             // 其他的兑付方式, 兑付日为产品成立日
-            $this->repayDay = (int)$this->foundDate->day;
+            $this->repayDay = (int) $this->foundDate->day;
         }
         // 指定兑付月
         if (self::REPAY_MODE_CUSTOM_DATE != $this->repayMode) {
@@ -298,6 +299,7 @@ class Product
     public function setDelayDays(int $days)
     {
         $this->delayDays = abs($days);
+
         return $this;
     }
 
@@ -342,6 +344,7 @@ class Product
         foreach ($holidays as $holiday) {
             $this->addHoliday($holiday);
         }
+
         return $this;
     }
 
@@ -353,6 +356,7 @@ class Product
     public function addHoliday(Carbon $date)
     {
         $this->holidays[] = $date->startOfDay();
+
         return $this;
     }
 
@@ -363,6 +367,7 @@ class Product
         }
 
         $this->advanceInterestType = $type;
+
         return $this;
     }
 
