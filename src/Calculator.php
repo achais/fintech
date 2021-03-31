@@ -34,7 +34,7 @@ class Calculator
 
     protected function getInvestmentMapKey(Investment $investment)
     {
-        return $investment->getInvestDateTime()->toDateString().'-'.$investment->getAmount();
+        return $investment->getInvestDateTime()->toDateString() . '-' . $investment->getAmount();
     }
 
     public function getProduct()
@@ -86,15 +86,7 @@ class Calculator
             $extraDays = 0;
             $extraRepaymentInterest = 0;
             if (0 === $index && $this->product->getAdvanceInterest()) {
-                $investDate = $investDateTime->copy()->startOfDay()->addDays($this->product->getDelayDays());
-
-                if (Product::ADVANCE_INTEREST_TYPE_SKIP_HOLIDAY == $this->product->getAdvanceInterestType()) {
-                    while (in_array($investDate, $this->product->getHolidays()) && $investDate->lte($foundDate)) {
-                        $investDate = $investDate->addDays(1);
-                    }
-                }
-
-                $extraDays = Carbon::make($this->product->getFoundDate())->diffInDays($investDate);
+                $extraDays = $this->getAdvanceFoundDays($investment);
                 $extraRepaymentInterest = $this->calcInterest($extraDays, $investment->getAmount());
             }
 
@@ -134,5 +126,25 @@ class Calculator
         $this->cacheRepaymentSummaries[$mapKey] = $summary;
 
         return $summary;
+    }
+
+    public function getAdvanceFoundDate(Investment $investment)
+    {
+        $investDateTime = $investment->getInvestDateTime();
+        $foundDate = $this->product->getFoundDate();
+        $investDate = $investDateTime->copy()->startOfDay()->addDays($this->product->getDelayDays());
+
+        if (Product::ADVANCE_INTEREST_TYPE_SKIP_HOLIDAY == $this->product->getAdvanceInterestType()) {
+            while (in_array($investDate, $this->product->getHolidays()) && $investDate->lte($foundDate)) {
+                $investDate = $investDate->addDays(1);
+            }
+        }
+
+        return $investDate;
+    }
+
+    public function getAdvanceFoundDays(Investment $investment)
+    {
+        return $this->getAdvanceFoundDate($investment)->diffInDays($this->product->getFoundDate());
     }
 }
