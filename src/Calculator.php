@@ -128,10 +128,20 @@ class Calculator
 
     public function getAdvanceFoundDate(Investment $investment)
     {
+        //不提前起息
         $investDateTime = $investment->getInvestDateTime();
         $foundDate = $this->product->getFoundDate();
-        $investDate = $investDateTime->copy()->startOfDay()->addDays($this->product->getDelayDays());
+        if (!$this->product->getAdvanceInterest()) {
+            return $foundDate;
+        }
 
+        //T+N超过成立日
+        $investDate = $investDateTime->copy()->startOfDay()->addDays($this->product->getDelayDays());
+        if ($investDate->gte($foundDate)) {
+            return $foundDate;
+        }
+
+        //下个工作日起息
         if (Product::ADVANCE_INTEREST_TYPE_SKIP_HOLIDAY == $this->product->getAdvanceInterestType()) {
             while (in_array($investDate, $this->product->getHolidays()) && $investDate->lte($foundDate)) {
                 $investDate = $investDate->addDays(1);
