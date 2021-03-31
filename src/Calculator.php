@@ -34,7 +34,7 @@ class Calculator
 
     protected function getInvestmentMapKey(Investment $investment)
     {
-        return $investment->getInvestDateTime()->toDateString() . '-' . $investment->getAmount();
+        return $investment->getInvestDateTime()->toDateString().'-'.$investment->getAmount();
     }
 
     public function getProduct()
@@ -56,8 +56,6 @@ class Calculator
     }
 
     /**
-     * @param Investment $investment
-     *
      * @return array|mixed
      *
      * @throws InvalidArgumentException
